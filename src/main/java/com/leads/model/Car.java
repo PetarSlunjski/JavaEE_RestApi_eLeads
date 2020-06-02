@@ -16,9 +16,15 @@ public class Car implements Serializable {
     private Integer id;
     @Column(name = "color")
     private String color;
-
+    @JoinColumn(name = "engine_type_id", nullable = false, referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private EngineType engineType;
+    @JoinColumn(name = "car_brand_id", nullable = false, referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private CarBrand carBrand;
+    @JoinColumn(name = "car_brand_id", nullable = false, referencedColumnName = "id")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name="lead_car", joinColumns = @JoinColumn(name = "car_id"), inverseJoinColumns = @JoinColumn(name = "lead_id"))
     private CarModel carModel;
 
     public Car() {
